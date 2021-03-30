@@ -1,0 +1,19 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: | 
+          docker build . --file Dockerfile --tag beshlawy38/github-image:v1.0
+          docker login -u ${{ secrets.MY_DOCKER_HUB }} -p ${{ secrets.MY_DOCKER_HUB_PASSWORD }}
+          docker push beshlawy38/github-image:v1.0
